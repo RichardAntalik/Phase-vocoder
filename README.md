@@ -1,0 +1,3 @@
+Minimalist implementation of phase vocoder.
+
+Intended mainly for understanding the code (didn't help much when it comes to math in rephasing function). But also for porting to C++, which helps quite a bit...
