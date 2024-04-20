@@ -1,28 +1,20 @@
 # Based on https://github.com/KAIST-MACLab/PyTSMod/blob/main/pytsmod/utils/stft.py
 # So I guess GPL-3 license applies
 # Mostly simplified the code to handle only integer scale factor and improve readability.
-# This is, because my limited knowledge in the area and intent to port the code to C++.
 
 import numpy as np
-
-def qplot(sig):
-    import matplotlib.pyplot as plt
-    plt.figure()
-    plt.plot(sig)
-    plt.show()
 
 # Creates curve, that somehow properly mixes the volume.
 # used for post processing: signal_out = signal_out / cutoff_curve_get(win_size, steps, syn_step) 
 # It has nice ramp-up/down feature, but seems that it introduces a tiny bit of HF component to signal.
-# IMO quite unnecessary. Steady state value is 1.5.
+# Currently unused. Steady state value is ~1.5.
 
-def cutoff_curve_get(win_size, n_frames, syn_hop):
-    curve = np.zeros(n_frames * syn_hop  + win_size)
-    for i in range(n_frames):
-        win_pos = syn_hop * i
-        curve[win_pos: win_pos + win_size] += np.power(np.hanning(win_size), 2) 
-    curve[curve < 1e-3] = 1e-3
-    return curve
+#def cutoff_curve_get(win_size, n_frames, syn_hop):
+#    curve = np.zeros(n_frames * syn_hop  + win_size)
+#    for i in range(n_frames):
+#        curve[win_pos: win_pos + win_size] += np.power(np.hanning(win_size), 2) 
+#    curve[curve < 1e-3] = 1e-3
+#    return curve
 
 def fft_rephase(fft, fft_prev, fft_rephased_last, win_size, anal_step, syn_step):
     k = np.arange(win_size)             #const
